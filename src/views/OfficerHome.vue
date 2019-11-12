@@ -93,3 +93,64 @@
     </v-flex>
   </v-layout>
 </template>
+
+<script>
+import ResoffComp from "../components/ResOffComp";
+
+export default {
+  components: {
+    ResoffComp
+  },
+  data() {
+    return {
+      showDialog: false,
+      newResidence: {
+        residenceID: "",
+        name: "",
+        address: "",
+        numUnits: "",
+        sizePerUnit: "",
+        monthlyRental: "",
+        createdBy: ""
+      }
+    };
+  },
+  computed: {
+    getResidences() {
+      return this.$store.getters.getResidences;
+    }
+  },
+  methods: {
+    addNewResidence() {
+      this.$store.commit("addResidence", this.newResidence);
+    },
+    cancelDialog() {
+      this.showDialog = false;
+      this.newResidence = {
+        residenceID: "",
+        name: "",
+        address: "",
+        numUnits: "",
+        sizePerUnit: "",
+        monthlyRental: "",
+        createdBy: ""
+      };
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.bquote {
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.add {
+  .v-btn {
+    border-radius: 4px;
+    margin: 1px;
+  }
+}
+</style>
