@@ -103,3 +103,51 @@
    </v-flex>
 </v-layout>
 </template>
+
+<script>
+import ApplicationoffComp from "../components/ApplicationOffComp";
+export default {
+  components: {
+    ApplicationoffComp
+  },
+  data() {
+    return {
+      unit: {},
+      applications: [],
+      disableEdit: true
+    };
+  },
+  computed: {
+    getUnit() {
+      return this.$store.getters.getSelectedUnit;
+    },
+    getApplications() {
+      return this.$store.getters.getUnitApplications;
+    }
+  },
+  watch: {
+    getUnit() {
+      this.unit = this.$store.getters.getSelectedUnit;
+    },
+    getApplications() {
+      this.applications = this.$store.getters.getUnitApplications;
+    }
+  },
+  methods: {
+    initData() {
+      this.unit = this.$store.getters.getSelectedUnit;
+      this.applications = this.$store.getters.getUnitApplications;
+    }
+  },
+  mounted() {
+    this.initData();
+  }
+};
+</script>
+<style lang="scss">
+.editable {
+  .theme--light.v-input--is-disabled input {
+    color: rgba(0, 0, 0, 0.8);
+  }
+}
+</style>
