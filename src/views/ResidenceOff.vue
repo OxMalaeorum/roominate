@@ -6,6 +6,144 @@
           <h1>Residences</h1>
         </v-flex>
         <v-flex xs12>
+          <v-layout align-center justify-end pb-2>
+            <v-flex>
+              <v-select
+                v-model="states"
+                :items="stateSelect"
+                multiple
+                chips
+                solo
+                hide-details
+                label="Showing all residences..."
+              ></v-select>
+            </v-flex>
+
+            <!--
+            <v-flex shrink class="add">
+              <v-menu :close-on-content-click="false">
+                <template v-slot:activator="{ on }">
+                  <v-btn small depressed v-on="on">Filter</v-btn>
+                </template>
+                <v-card width="300px">
+                  <v-flex pa-2>
+                    <v-layout pl-1>
+                      <h4>Show residences in:</h4>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs6>
+                        <v-checkbox v-model="showKL" label="Kuala Lumpur"></v-checkbox>
+                      </v-flex>
+                      <v-flex xs6>
+                        <v-checkbox v-model="showSelangor" label="Selangor"></v-checkbox>
+                      </v-flex>
+                    </v-layout>
+                    <v-layout>
+                      <v-flex xs6>
+                        <v-checkbox v-model="showJohor" label="Johor"></v-checkbox>
+                      </v-flex>
+                      <v-flex xs6>
+                        <v-checkbox v-model="showPenang" label="Penang"></v-checkbox>
+                      </v-flex>
+                    </v-layout>
+                    <v-layout>
+                      <v-flex xs6>
+                        <v-checkbox v-model="showTerengganu" label="Terengganu"></v-checkbox>
+                      </v-flex>
+                      <v-flex xs6>
+                        <v-checkbox v-model="showMelaka" label="Melaka"></v-checkbox>
+                      </v-flex>
+                    </v-layout>
+                  </v-flex>
+                </v-card>
+              </v-menu>
+            </v-flex>
+            -->
+
+            <v-flex shrink class="add" pl-2>
+              <v-dialog v-model="showDialog" width="60%" height="60%">
+                <template v-slot:activator="{ on }">
+                  <v-btn outline small depressed v-on="on">
+                    <v-icon>add</v-icon>New Residence
+                  </v-btn>
+                </template>
+
+                <v-card>
+                  <v-card-title class="headline grey lighten-2" primary-title>
+                    <v-flex xs5 px-2 mx-5 text-xs-left>
+                      <h4>New Residence</h4>
+                    </v-flex>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-form ref="residenceForm" v-model="valid" lazy-validation>
+                      <v-layout align-start pa-2 mx-5>
+                        <v-flex xs5 text-xs-left>
+                          <v-layout row wrap>
+                            <v-flex xs12 py-3>
+                              <h3>Residence Name:</h3>
+                            </v-flex>
+                            <v-flex xs12></v-flex>
+                          </v-layout>
+                        </v-flex>
+                        <v-flex xs7>
+                          <v-text-field
+                            v-model="newResidence.name"
+                            :rules="nameRules"
+                            label="Residence Name"
+                            solo
+                            required
+                          ></v-text-field>
+                        </v-flex>
+                      </v-layout>
+                      <v-layout align-start pa-2 mx-5>
+                        <v-flex xs5 text-xs-left pt-3>
+                          <h3>Address:</h3>
+                        </v-flex>
+                        <v-flex xs7>
+                          <v-textarea
+                            v-model="newResidence.address"
+                            :rules="addressRules"
+                            label="Address"
+                            auto-grow
+                            solo
+                            required
+                          ></v-textarea>
+                        </v-flex>
+                      </v-layout>
+                      <v-layout align-start pa-2 mx-5>
+                        <v-flex xs5 text-xs-left>
+                          <v-layout row wrap>
+                            <v-flex xs12 py-3>
+                              <h3>State:</h3>
+                            </v-flex>
+                            <v-flex xs12></v-flex>
+                          </v-layout>
+                        </v-flex>
+                        <v-flex xs7>
+                          <v-select
+                            v-model="newResidence.state"
+                            :rules="stateRules"
+                            :items="stateSelect"
+                            label="State"
+                            solo
+                          ></v-select>
+                        </v-flex>
+                      </v-layout>
+                    </v-form>
+                  </v-card-text>
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" flat @click="cancelDialog">Cancel</v-btn>
+                    <v-btn color="primary" @click="addNewResidence">Save</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-flex>
+          </v-layout>
+
           <v-card
             color="rgba(92,142,190,0.8)"
             style="outline: 1px solid rgba(92,142,190,0.8)"
@@ -13,161 +151,35 @@
             tile
             flat
           >
-            <v-layout justify-space-between>
-              <v-flex shrink class="add">
-                <v-menu :close-on-content-click="false">
-                  <template v-slot:activator="{ on }">
-                    <v-btn small depressed v-on="on">Filter</v-btn>
-                  </template>
-                  <v-card width="300px">
-                    <v-flex pa-2>
-                      <v-layout pl-1>
-                        <h4>Show residences in:</h4>
-                      </v-layout>
-                      <v-layout row wrap>
-                        <v-flex xs6>
-                          <v-checkbox
-                            v-model="showKL"
-                            label="Kuala Lumpur"
-                          ></v-checkbox>
-                        </v-flex>
-                        <v-flex xs6>
-                          <v-checkbox
-                            v-model="showSelangor"
-                            label="Selangor"
-                          ></v-checkbox>
-                        </v-flex>
-                      </v-layout>
-                      <v-layout>
-                        <v-flex xs6>
-                          <v-checkbox
-                            v-model="showJohor"
-                            label="Johor"
-                          ></v-checkbox>
-                        </v-flex>
-                        <v-flex xs6>
-                          <v-checkbox
-                            v-model="showPenang"
-                            label="Penang"
-                          ></v-checkbox>
-                        </v-flex>
-                      </v-layout>
-                      <v-layout>
-                        <v-flex xs6>
-                          <v-checkbox
-                            v-model="showTerengganu"
-                            label="Terengganu"
-                          ></v-checkbox>
-                        </v-flex>
-                        <v-flex xs6>
-                          <v-checkbox
-                            v-model="showMelaka"
-                            label="Melaka"
-                          ></v-checkbox>
-                        </v-flex>
-                      </v-layout>
-                    </v-flex>
-                  </v-card>
-                </v-menu>
+            <v-layout row px-3 fill-height align-center justify-start>
+              <v-flex xs11>
+                <v-layout>
+                  <v-flex xs1 pr-2></v-flex>
+
+                  <v-flex xs3>
+                    <blockquote class="bquote1">Residence</blockquote>
+                  </v-flex>
+
+                  <v-flex xs4>
+                    <blockquote class="bquote1">Address</blockquote>
+                  </v-flex>
+
+                  <v-flex xs2 text-xs-center>
+                    <blockquote class="bquote1">Units</blockquote>
+                  </v-flex>
+
+                  <v-flex xs2 text-xs-center>
+                    <blockquote class="bquote1">Applications</blockquote>
+                  </v-flex>
+                </v-layout>
               </v-flex>
 
-              <v-flex shrink class="add">
-                <v-dialog v-model="showDialog" width="60%" height="60%">
-                  <template v-slot:activator="{ on }">
-                    <v-btn small depressed v-on="on">New Residence</v-btn>
-                  </template>
-
-                  <v-card>
-                    <v-card-title class="headline grey lighten-2" primary-title>
-                      <v-flex xs5 px-2 mx-5 text-xs-left>
-                        <h4>New Residence</h4>
-                      </v-flex>
-                    </v-card-title>
-
-                    <v-card-text>
-                      <v-form
-                        ref="residenceForm"
-                        v-model="valid"
-                        lazy-validation
-                      >
-                        <v-layout align-start pa-2 mx-5>
-                          <v-flex xs5 text-xs-left>
-                            <v-layout row wrap>
-                              <v-flex xs12 py-3>
-                                <h3>Residence Name:</h3>
-                              </v-flex>
-                              <v-flex xs12></v-flex>
-                            </v-layout>
-                          </v-flex>
-                          <v-flex xs7>
-                            <v-text-field
-                              v-model="newResidence.name"
-                              :rules="nameRules"
-                              label="Residence Name"
-                              solo
-                              required
-                            ></v-text-field>
-                          </v-flex>
-                        </v-layout>
-                        <v-layout align-start pa-2 mx-5>
-                          <v-flex xs5 text-xs-left pt-3>
-                            <h3>Address:</h3>
-                          </v-flex>
-                          <v-flex xs7>
-                            <v-textarea
-                              v-model="newResidence.address"
-                              :rules="addressRules"
-                              label="Address"
-                              auto-grow
-                              solo
-                              required
-                            ></v-textarea>
-                          </v-flex>
-                        </v-layout>
-                        <v-layout align-start pa-2 mx-5>
-                          <v-flex xs5 text-xs-left>
-                            <v-layout row wrap>
-                              <v-flex xs12 py-3>
-                                <h3>State:</h3>
-                              </v-flex>
-                              <v-flex xs12></v-flex>
-                            </v-layout>
-                          </v-flex>
-                          <v-flex xs7>
-                            <v-select
-                              v-model="newResidence.state"
-                              :rules="stateRules"
-                              :items="stateSelect"
-                              label="State"
-                              solo
-                            ></v-select>
-                          </v-flex>
-                        </v-layout>
-                      </v-form>
-                    </v-card-text>
-                    <v-divider></v-divider>
-
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" flat @click="cancelDialog"
-                        >Cancel</v-btn
-                      >
-                      <v-btn color="primary" @click="addNewResidence"
-                        >Save</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-flex>
+              <v-flex xs1></v-flex>
             </v-layout>
           </v-card>
         </v-flex>
         <v-flex xs12>
-          <Resoff-comp
-            v-for="(res, index) in getFilteredResidences"
-            :key="index"
-            :residence="res"
-          ></Resoff-comp>
+          <Resoff-comp v-for="(res, index) in getFilteredResidences" :key="index" :residence="res"></Resoff-comp>
         </v-flex>
       </v-layout>
     </v-flex>
@@ -181,6 +193,7 @@ export default {
   components: {
     ResoffComp
   },
+  mounted() {},
   data() {
     return {
       showDialog: false,
@@ -285,7 +298,7 @@ export default {
     },
     addNewResidence() {
       if (this.$refs.residenceForm.validate()) {
-        this.$store.commit("addResidence", this.newResidence);
+        this.$store.dispatch("addNewResidence", this.newResidence);
         this.cancelDialog();
       }
     },
@@ -316,6 +329,11 @@ export default {
   font-size: 18px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.bquote1 {
+  font-size: 16px;
+  padding: 0;
 }
 
 .add {
