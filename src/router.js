@@ -2,18 +2,21 @@ import Vue from "vue";
 import { store } from "./store";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import ResidenceHome from "./views/ResidenceHome";
 import Login from "./views/Login";
 import Register from "./views/Register";
 //officer views
-import OfficerHome from "./views/OfficerHome";
 import ResidenceOff from "./views/ResidenceOff";
 import ResoffDetail from "./views/ResidenceOffDetail.vue";
 import UnitoffDetail from "./views/UnitOffDetail";
-import ApplicationOff from "./views/ApplicationOff";
+import Profile from "./views/Profile";
 //applicant views
-import ApplicantHome from "./views/ApplicantHome";
 import ResidenceApp from "./views/ResidenceApp";
 import ResappDetail from "./views/ResidenceAppDetail";
+import ApplicationApp from "./views/ApplicationApp";
+
+//DO NOT INCLUDE THIS SAVE HACK
+import SaveHack from "./views/SaveHack";
 
 Vue.use(Router);
 
@@ -38,10 +41,23 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "/save",
+      name: "save",
+      component: SaveHack
+    },
+    {
       path: "/",
+      redirect: "/home"
+    },
+    {
+      path: "/home",
       name: "home",
-      component: Home,
-      beforeEnter: ifNotAuth
+      component: Home
+    },
+    {
+      path: "/residence",
+      name: "residence",
+      component: ResidenceHome
     },
     {
       path: "/login",
@@ -52,11 +68,6 @@ export default new Router({
       path: "/register",
       component: Register,
       beforeEnter: ifNotAuth
-    },
-    {
-      path: "/officer/home",
-      component: OfficerHome,
-      beforeEnter: ifAuth
     },
     {
       path: "/officer/residence",
@@ -74,13 +85,8 @@ export default new Router({
       beforeEnter: ifAuth
     },
     {
-      path: "/officer/application",
-      component: ApplicationOff,
-      beforeEnter: ifAuth
-    },
-    {
-      path: "/applicant/home",
-      component: ApplicantHome,
+      path: "/officer/profile",
+      component: Profile,
       beforeEnter: ifAuth
     },
     {
@@ -89,8 +95,18 @@ export default new Router({
       beforeEnter: ifAuth
     },
     {
+      path: "/applicant/application",
+      component: ApplicationApp,
+      beforeEnter: ifAuth
+    },
+    {
       path: "/applicant/residence_detail",
       component: ResappDetail,
+      beforeEnter: ifAuth
+    },
+    {
+      path: "/applicant/profile",
+      component: Profile,
       beforeEnter: ifAuth
     },
     {

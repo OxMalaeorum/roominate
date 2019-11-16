@@ -229,6 +229,11 @@ const mutations = {
   addNewUser: (state, newUser) => {
     state.users.push(newUser);
   },
+  updateUser: (state, updatedUser) => {
+    state.users.filter(
+      user => user.userID == updatedUser.userID
+    )[0] = updatedUser;
+  },
   setLoggedInUser: (state, user) => {
     state.loggedInUser = user;
   },
@@ -259,11 +264,23 @@ const mutations = {
   setApplications: (state, applications) => {
     state.applications = applications;
   },
+  addApplication: (state, application) => {
+    state.applications.push(application);
+  },
   setUnitApplications: (state, applications) => {
     state.unitApplications = applications;
   },
+  setUnitAvailability: (state, unit) => {
+    state.units.filter(u => u.unitID == unit.unitID)[0].availability =
+      unit.availability;
+  },
   setSelectedApplication: (state, application) => {
     state.selectedApplication = application;
+  },
+  setApplicationStatusByID: (state, application) => {
+    state.applications.filter(
+      app => app.applicationID == application.applicationID
+    )[0].status = application.status;
   }
 };
 
@@ -272,9 +289,47 @@ const actions = {
     let users = JSON.parse(localStorage.getItem("users")) || [];
     commit("setUsers", users);
   },
+  addNewUser: ({ commit }, newUser) => {
+    let existingUsers = state.users || [];
+    existingUsers.push(newUser);
+    commit("addNewUser", newUser);
+    localStorage.setItem("users", JSON.stringify(existingUsers));
+  },
+  saveUsers: () => {
+    localStorage.setItem("users", JSON.stringify(state.users));
+  },
   fetchResidences: ({ commit }) => {
     let residences = JSON.parse(localStorage.getItem("residences")) || [];
     commit("setResidences", residences);
+  },
+  addNewResidence: ({ commit }, newRes) => {
+    commit("addResidence", newRes);
+    localStorage.setItem("residences", JSON.stringify(state.residences));
+  },
+  saveResidences: () => {
+    localStorage.setItem("residences", JSON.stringify(state.residences));
+  },
+  fetchUnits: ({ commit }) => {
+    let units = JSON.parse(localStorage.getItem("units")) || [];
+    commit("setUnits", units);
+  },
+  addNewUnit: ({ commit }, newUnit) => {
+    commit("addUnit", newUnit);
+    localStorage.setItem("units", JSON.stringify(state.units));
+  },
+  saveUnits: () => {
+    localStorage.setItem("units", JSON.stringify(state.units));
+  },
+  fetchApplications: ({ commit }) => {
+    let applications = JSON.parse(localStorage.getItem("applications")) || [];
+    commit("setApplications", applications);
+  },
+  addNewApplication: ({ commit }, newApplication) => {
+    commit("addApplication", newApplication);
+    localStorage.setItem("applications", JSON.stringify(state.applications));
+  },
+  saveApplications: () => {
+    localStorage.setItem("applications", JSON.stringify(state.applications));
   }
 };
 
