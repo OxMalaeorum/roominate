@@ -86,7 +86,29 @@
                 color="rgba(92,142,190,0.8)"
                 style="outline: 1px solid rgba(92,142,190,0.8)"
                 height="30px"
-              ></v-card>
+              >
+                <v-layout row px-3 fill-height align-center justify-start>
+                  <v-flex xs2 text-xs-center>
+                    <blockquote class="bquote1">Unit ID</blockquote>
+                  </v-flex>
+
+                  <v-flex xs2 text-xs-center>
+                    <blockquote class="bquote1">Size</blockquote>
+                  </v-flex>
+
+                  <v-flex xs2 text-xs-center>
+                    <blockquote class="bquote1">Monthly Rental</blockquote>
+                  </v-flex>
+
+                  <v-flex xs2 text-xs-center>
+                    <blockquote class="bquote1">Availability</blockquote>
+                  </v-flex>
+
+                  <v-spacer></v-spacer>
+
+                  <v-flex xs2 text-xs-right></v-flex>
+                </v-layout>
+              </v-card>
             </v-flex>
 
             <v-flex xs12>
@@ -207,6 +229,11 @@ export default {
   font-size: 18px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.bquote1 {
+  font-size: 16px;
+  padding: 0;
 }
 
 .add {
